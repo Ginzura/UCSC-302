@@ -1,0 +1,26 @@
+Function Components The different parts of a function are −
+
+Function Name − This is the actual name of the function. It is stored in R environment as an object with this name.
+
+Arguments − An argument is a placeholder. When a function is invoked, you pass a value to the argument. Arguments are optional; that is, a function may contain no arguments. Also arguments can have default values.
+
+Function Body − The function body contains a collection of statements that defines what the function does.
+
+Return Value − The return value of a function is the last expression in the function body to be evaluated.
+
+```{r}
+#s=a+b+c/2
+#Area = SquareRoot(s*(s-a)*(s-b)*(s-c))
+#Input: a,b,c as numbers
+#Output: Area of the Triangle
+
+a<-as.numeric(readline(prompt = "Enter your first number: "))
+b<-as.numeric(readline(prompt = "Enter your first number: "))
+c<-as.numeric(readline(prompt = "Enter your first number: "))
+
+Ar <- function(a,b,c)
+{((a+b+c)/2*((a+b+c)/2-a)*((a+b+c)/2-b)*((a+b+c)/2-c))^(1/2)}
+
+print(Ar(a,b,c))
+
+```

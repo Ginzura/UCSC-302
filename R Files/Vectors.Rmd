@@ -1,0 +1,266 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+[[**VECTORS**]{.underline}]{style="RED"}
+
+Vectors come in two types:- (i)Atomic (ii)Lists Atomic - all elements
+must have same type -
+
+**Atomic Vectors**- (i)Logical (ii)Integer --- Character (iii)double ---
+Vectors (iv)Character
+
+Logical-T/F Doubles-(0.1234) Integers-(1234L,1e4L) Strings-" ",' '
+
+**Test**- is.\*() function - which type it is. for e.g-
+is.logical(),is.integer() etc.
+
+**Coerced**- When we attempt to combine different types - coerced in a
+fixed order: Character -\> Double -\> Integer -\> Logical.
+
+for e.g - Combining a chr and int -\> chr.
+
+**(or)**
+
+you can coerce by using as.\*() function. For e.g - as.logical(),
+as.double() etc.
+
+**Attributes**------
+
+```{r}
+a <- 1:3
+attr(a,"x") <- "abcdef"
+attr(a,"y") <- 4:6
+str(attributes(a))
+```
+
+```{r}
+a <- structure(
+  1:3,
+  x = "abcdef",
+  y = 4:6
+)
+str(attributes(a))
+```
+
+**Names**-- 3 ways to do it -- (i)When creating it:
+
+```{r}
+x <- c(a=1,b=2,c=3)
+```
+
+(ii)By assigning a character vector to names()
+
+```{r}
+x<-1:3
+names(x)<-c("a","b","c")
+```
+
+(iii)Inline, with setNames:
+
+```{r}
+x<- setNames(1:3,c("a","b","c"))
+```
+
+**Dimensions**--
+
+```{r}
+a<-matrix(1:6,nrow=2,ncol=3)
+b<-array(1:12,c(2,3,2))
+c<-1:6
+dim(c)<-c(3,2)
+```
+
+**Vector, Matrix, & Array:**----
+
+```{r}
+#1d Vector
+str(1:3)
+#column vector
+str(matrix(1:3,ncol=1))
+#row vector
+str(matrix(1:3,nrow = 1))
+#array vector
+str(array(1:3,3))
+```
+
+**S3 Atomic Vectors:**--
+
+Class-attribute turns an object into an **S3 object**.
+
+**Categories**--
+
+(i)Factor--Categorical Data(Integer)
+
+(ii)Date--Dates with day resolution(Double)
+
+(iii)POSIXct--date-times with second or sub-second resolution(Double)
+
+(iv)Difftime--Durations
+
+**FACTORS:**
+
+It is of 2 attributes : a class and a factor
+
+```{r}
+x<-factor(c("a","b","b","a"))
+x
+
+typeof(x)
+attributes(x)
+```
+
+```{r}
+s_char<-c("m","m","m")
+s_factor<- factor(s_char,levels = c("m","f"))
+table(s_char)
+table(s_factor)
+```
+
+*Ordered*factors - low,medium and High levelling
+
+```{r}
+grade<-ordered(c("b","b","a","c"),levels=c("a","b","c"))
+grade
+```
+
+**DATES:**
+
+Double vectors
+
+Have only class "Date" and no other attributes
+
+```{r}
+today<-Sys.Date()
+today
+typeof(today)
+attributes(today)
+```
+
+```{r}
+date<-as.Date("2022-08-12")
+unclass(date)#The no. of days since 1970-01-01
+#Time started for Unix computers
+```
+
+**DATE-TIMES:(POSIX:** Portable Operating System Interface**)**
+
+It provides two ways of storing date-time information,
+
+*POSIXct(*calendar time*) & POSIXlt(*local time*)*
+
+```{r}
+now_ct<-as.POSIXct("2022-08-12 3:00",tz="UTC")
+now_ct
+typeof(now_ct)
+attributes(now_ct)
+```
+
+```{r}
+structure(now_ct, tzone="Asia/Tokyo")
+structure(now_ct, tzone="America/New_York")
+structure(now_ct, tzone="Australia/Lord_Howe")
+structure(now_ct, tzone="Europe/Paris")
+```
+
+**DURATIONS:**
+
+The amount of time between pairs of Dates
+
+```{r}
+one_week<-as.difftime(1,units="weeks")#units can be days,weeks
+one_week
+typeof(one_week)
+attributes(one_week)
+```
+
+**LISTS:**
+
+It can be of any type, not just vectors.
+
+(i) **Creating -**
+
+```{r}
+l1 <- list(
+  1:3,
+  "a",
+  c(TRUE,TRUE,TRUE),
+  c(2.3,5,9)
+)
+typeof(l1)
+str(l1)
+```
+
+**Recursive** vectors - Lists - as it can contain another list.
+
+```{r}
+l2<-list(list(list(1)))
+str(l2)
+
+l3<-list(list(1,2),c(3,4))
+l4<-c(list(1,2),c(3,4))#c combines several lists into one
+str(l3)
+str(l4)
+```
+
+(iii) **Matrices and Arrays -**
+
+```{r}
+l<-list(1:3,"a",TRUE,1.0)
+dim(l)<-c(2,2)
+l
+l[[1,1]]
+```
+
+**DATA FRAMES AND TIBBLES:**
+
+First, vector then to list and List is converted into two types called
+
+(i) data.frame & (ii) tibble
+
+**DATA FRAME -** It is a named list of vectors with attributes for
+(column) names, row.names, and its class, "data.frame":
+
+```{r}
+df1<-data.frame(x=1:3,y=letters[1:3])
+df1
+typeof(df1)
+attributes(df1)
+```
+
+The length of each vectors should be same \<- Rectangle \<- share
+properties of both Matrices and lists.
+
+(i) It has `rownames()`and `colnames().`The `names()` of a data frame
+are the column names.
+
+(ii) \-\-\-\-\-\-\-\-\-- `nrow()`rows and`ncol()`columns.`length()`:
+gives the number of columns.
+
+**TIBBLES -(***Lazy and Surly: They do less and complain more***)**
+
+Replacement for Data frames.
+
+```{r}
+library(tibble)
+
+df2<-tibble(x=1:3,y=letters[1:3])
+typeof(df2)
+attributes(df2)
+```
+
+(i) **Creating -**
+
+Same as Data Frame
+
+*LAZY* :- As it doesn't coerce the inputs
+
+```{r}
+data.frame(x=1:4,y=1:2)
+
+tibble(x=1:4,y=1)
+```
+
+# 
